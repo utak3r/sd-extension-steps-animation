@@ -97,6 +97,7 @@ Default parameters used for each codec:
 - **vpx-vp9**: `-vcodec libvpx-vp9 -crf 34 -b:v 0 -deadline realtime -cpu-used 4`
 - **aom-av1**: `-vcodec libaom-av1 -crf 28 -b:v 0 -usage realtime -cpu-used 8 -pix_fmt yuv444p`
 - **prores**: `-vcodec prores_ks -profile:v 3 -vendor apl0 -bits_per_mb 8000 -pix_fmt yuv422p10le`
+- **gif**: `-filter_complex "[0:v] fps=10,crop=305:203:42:660,scale=240:-1,split [a][b];[a] palettegen [p];[b][p] paletteuse"`
 
 ## Credits
 

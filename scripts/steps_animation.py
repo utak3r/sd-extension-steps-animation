@@ -33,6 +33,7 @@ presets = {
     'vpx-vp9': '-vcodec libvpx-vp9 -crf 34 -b:v 0 -deadline realtime -cpu-used 4',
     'aom-av1': '-vcodec libaom-av1 -crf 28 -b:v 0 -usage realtime -cpu-used 8 -pix_fmt yuv444p',
     'prores_ks': '-vcodec prores_ks -profile:v 3 -vendor apl0 -bits_per_mb 8000 -pix_fmt yuv422p10le',
+    'gif': '-filter_complex \"[0:v] fps=12,split [a][b];[a] palettegen [p];[b][p] paletteuse\"',
 }
 
 
@@ -73,7 +74,7 @@ class Script(scripts.Script):
                 Creates animation sequence from denoised intermediate steps with video frame interpolation to achieve desired animation duration</a><br>""")
             with gr.Row():
                 is_enabled = gr.Checkbox(label = 'Script Enabled', value = False)
-                codec = gr.Radio(label = 'Codec', choices = ['x264', 'x265', 'vpx-vp9', 'aom-av1', 'prores_ks'], value = 'x264')
+                codec = gr.Radio(label = 'Codec', choices = ['x264', 'x265', 'vpx-vp9', 'aom-av1', 'prores_ks', 'gif'], value = 'x264')
                 interpolation = gr.Radio(label = 'Interpolation', choices = ['none', 'mci', 'blend'], value = 'blend')
             with gr.Row():
                 duration = gr.Slider(label = 'Duration', minimum = 0.5, maximum = 120, step = 0.1, value = 10)
@@ -252,6 +253,8 @@ class Script(scripts.Script):
             suffix = '.webm'
         elif params['codec'] == 'libprores_ks':
             suffix = '.mov'
+        elif params['codec'] == 'gif':
+            suffix = '.gif'
         else:
             suffix = '.mp4'
         for iteration in range(0, params['batchcount']):
